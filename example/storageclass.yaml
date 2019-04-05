@@ -4,4 +4,4 @@ metadata:
   name: csi-cvmfs
 provisioner: csi-cvmfsplugin
 parameters:
-  repository: data.galaxyproject.org
+  repository: cms.cern.ch

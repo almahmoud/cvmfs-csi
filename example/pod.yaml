@@ -10,7 +10,7 @@ spec:
      command: [ "/bin/sh", "-c", "trap : TERM INT; (while true; do sleep 1000; done) & wait" ]
      volumeMounts:
        - name: mypvc
-         mountPath: /data.galaxyproject.org
+         mountPath: /cms.cern.ch
   volumes:
    - name: mypvc
      persistentVolumeClaim:

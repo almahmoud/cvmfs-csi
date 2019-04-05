@@ -4,7 +4,7 @@ CONTAINER_NAME=csi-cvmfsplugin
 POD_NAME=$(kubectl get pods -l app=$CONTAINER_NAME -o=name | head -n 1)
 
 function get_pod_status() {
-	echo $(kubectl get $POD_NAME -o jsonpath="{.status.phase}")
+	echo -n $(kubectl get $POD_NAME -o jsonpath="{.status.phase}")
 }
 
 while [[ "$(get_pod_status)" != "Running" ]]; do
