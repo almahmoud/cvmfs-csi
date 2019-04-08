@@ -9,9 +9,9 @@ spec:
      imagePullPolicy: IfNotPresent
      command: [ "/bin/sh", "-c", "trap : TERM INT; (while true; do sleep 1000; done) & wait" ]
      volumeMounts:
-       - name: mypvc
+       - name: csi-cvmfs-pv
          mountPath: /cms.cern.ch
   volumes:
-   - name: mypvc
+   - name: csi-cvmfs-pv
      persistentVolumeClaim:
        claimName: csi-cvmfs-pvc
