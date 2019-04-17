@@ -1,0 +1,14 @@
+apiVersion: v1
+data:
+  cvmfs-override: |
+    CVMFS_SERVER_URL="http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-psu0.galaxyproject.org/cvmfs/@fqrn@;http://galaxy.jrc.ec.europa.eu:8008/cvmfs/@fqrn@;http://cvmfs1-ufr0.galaxyproject.eu/cvmfs/@fqrn@"
+    CVMFS_KEYS_DIR="/etc/cvmfs/keys/"
+    CVMFS_USE_GEOAPI=yes
+    CVMFS_HTTP_PROXY="DIRECT"
+    CVMFS_QUOTA_LIMIT=20000
+kind: ConfigMap
+metadata:
+  name: gxy-config-configmap
+  namespace: cvmfs
+  selfLink: /api/v1/namespaces/cvmfs/configmaps/gxy-config-configmap
+  uid: 04ee2524-612f-11e9-9f7e-42010a8e0062

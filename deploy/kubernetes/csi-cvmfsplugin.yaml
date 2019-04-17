@@ -62,10 +62,10 @@ spec:
               readOnly: true
             - name: host-dev
               mountPath: /dev
-            - name: galaxy-cvmfs-pubkey
+            - name: cvmfs-gxy-pubkey
               mountPath: /etc/cvmfs/keys/data.galaxyproject.org.pub
               subPath: gxy-key
-            - name: cvmfs-config
+            - name: cvmfs-gxy-config
               mountPath: /etc/cvmfs/default.local
               subPath: cvmfs-override
       volumes:
@@ -90,9 +90,9 @@ spec:
         - name: host-dev
           hostPath:
             path: /dev
-        - name: cvmfs-config
+        - name: cvmfs-gxy-config
           configMap:
-            name: config
-        - name: galaxy-cvmfs-pubkey
+            name: gxy-config-configmap
+        - name: cvmfs-gxy-pubkey
           configMap:
-            name: cvmfs-key
+            name: gxy-key-configmap

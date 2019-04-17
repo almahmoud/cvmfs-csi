@@ -1,0 +1,18 @@
+apiVersion: v1
+data:
+  gxy-key: |
+    -----BEGIN PUBLIC KEY-----
+    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5LHQuKWzcX5iBbCGsXGt
+    6CRi9+a9cKZG4UlX/lJukEJ+3dSxVDWJs88PSdLk+E25494oU56hB8YeVq+W8AQE
+    3LWx2K2ruRjEAI2o8sRgs/IbafjZ7cBuERzqj3Tn5qUIBFoKUMWMSIiWTQe2Sfnj
+    GzfDoswr5TTk7aH/FIXUjLnLGGCOzPtUC244IhHARzu86bWYxQJUw0/kZl5wVGcH
+    maSgr39h1xPst0Vx1keJ95AH0wqxPbCcyBGtF1L6HQlLidmoIDqcCQpLsGJJEoOs
+    NVNhhcb66OJHah5ppI1N3cZehdaKyr1XcF9eedwLFTvuiwTn6qMmttT/tHX7rcxT
+    owIDAQAB
+    -----END PUBLIC KEY-----
+kind: ConfigMap
+metadata:
+  name: gxy-key-configmap
+  namespace: cvmfs
+  selfLink: /api/v1/namespaces/cvmfs/configmaps/gxy-key-configmap
+  uid: 04cc4ae4-612f-11e9-9f7e-42010a8e0062
