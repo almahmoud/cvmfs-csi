@@ -1,17 +1,17 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: csicvmfs-demo-pod
+  name: csicvmfs-gxy-data-demo
 spec:
   containers:
-   - name: csicvmfs-demo
+   - name: csicvmfs-gxy-data
      image: busybox
      imagePullPolicy: IfNotPresent
      command: [ "/bin/sh", "-c", "trap : TERM INT; (while true; do sleep 1000; done) & wait" ]
      volumeMounts:
-       - name: mypvc
+       - name: gxy-data-pvc
          mountPath: /data.galaxyproject.org
   volumes:
-   - name: mypvc
+   - name: gxy-data-pvc
      persistentVolumeClaim:
-       claimName: csi-cvmfs-pvc
+       claimName: csi-cvmfs-gxy-data-pvc

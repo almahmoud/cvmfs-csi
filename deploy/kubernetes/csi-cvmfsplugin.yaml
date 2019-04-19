@@ -62,9 +62,12 @@ spec:
               readOnly: true
             - name: host-dev
               mountPath: /dev
-            - name: cvmfs-gxy-pubkey
+            - name: cvmfs-data-gxy-pubkey
               mountPath: /etc/cvmfs/keys/data.galaxyproject.org.pub
-              subPath: gxy-key
+              subPath: data-gxy-key
+            - name: cvmfs-main-gxy-pubkey
+              mountPath: /etc/cvmfs/keys/main.galaxyproject.org.pub
+              subPath: main-gxy-key
             - name: cvmfs-gxy-config
               mountPath: /etc/cvmfs/default.local
               subPath: cvmfs-override
@@ -93,6 +96,9 @@ spec:
         - name: cvmfs-gxy-config
           configMap:
             name: gxy-config-configmap
-        - name: cvmfs-gxy-pubkey
+        - name: cvmfs-data-gxy-pubkey
           configMap:
-            name: gxy-key-configmap
+            name: data-gxy-key-configmap
+        - name: cvmfs-main-gxy-pubkey
+          configMap:
+            name: main-gxy-key-configmap

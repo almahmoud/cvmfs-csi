@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: csicvmfs-gxy-both-demo-depl
+  labels:
+    app: csicvmfs-gxy-both-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: csicvmfs-gxy-both-demo
+  template:
+    metadata:
+      labels:
+        app: csicvmfs-gxy-both-demo
+    spec:
+      containers:
+       - name: gxy-both-demo
+         image: busybox
+         imagePullPolicy: IfNotPresent
+         command: [ "/bin/sh", "-c", "trap : TERM INT; (while true; do sleep 1000; done) & wait" ]
+         volumeMounts:
+           - name: gxy-main-pvc
+             mountPath: /main.galaxyproject.org
+           - name: gxy-data-pvc
+             mountPath: /data.galaxyproject.org
+      volumes:
+       - name: gxy-main-pvc
+         persistentVolumeClaim:
+           claimName: csi-cvmfs-gxy-main-pvc
+           readOnly: false
+       - name: gxy-data-pvc
+         persistentVolumeClaim:
+           claimName: csi-cvmfs-gxy-data-pvc
+           readOnly: false

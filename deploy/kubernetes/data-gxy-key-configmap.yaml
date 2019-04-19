@@ -1,6 +1,6 @@
 apiVersion: v1
 data:
-  gxy-key: |
+  data-gxy-key: |
     -----BEGIN PUBLIC KEY-----
     MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5LHQuKWzcX5iBbCGsXGt
     6CRi9+a9cKZG4UlX/lJukEJ+3dSxVDWJs88PSdLk+E25494oU56hB8YeVq+W8AQE
@@ -12,7 +12,6 @@ data:
     -----END PUBLIC KEY-----
 kind: ConfigMap
 metadata:
-  name: gxy-key-configmap
+  name: data-gxy-key-configmap
   namespace: cvmfs
-  selfLink: /api/v1/namespaces/cvmfs/configmaps/gxy-key-configmap
-  uid: 04cc4ae4-612f-11e9-9f7e-42010a8e0062
+  selfLink: /api/v1/namespaces/cvmfs/configmaps/data-gxy-key-configmap
