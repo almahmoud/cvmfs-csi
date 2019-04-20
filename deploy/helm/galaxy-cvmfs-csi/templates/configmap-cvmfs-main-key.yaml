@@ -13,4 +13,4 @@ data:
 kind: ConfigMap
 metadata:
   name: main-gxy-key-configmap
-  namespace: cvmfs
+  namespace: {{ .Values.namespace }}

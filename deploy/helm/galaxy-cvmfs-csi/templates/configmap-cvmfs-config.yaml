@@ -5,9 +5,9 @@ data:
     CVMFS_KEYS_DIR="/etc/cvmfs/keys/"
     CVMFS_USE_GEOAPI=yes
     CVMFS_HTTP_PROXY="DIRECT"
-    CVMFS_QUOTA_LIMIT=20000
+    CVMFS_QUOTA_LIMIT={{ .Values.cache.size }}
+    CVMFS_CACHE_BASE={{ .Values.cache.directory }}
 kind: ConfigMap
 metadata:
   name: gxy-config-configmap
-  namespace: cvmfs
-  selfLink: /api/v1/namespaces/cvmfs/configmaps/gxy-config-configmap
+  namespace: {{ .Values.namespace }}

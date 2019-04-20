@@ -1,0 +1,14 @@
+# Default values for galaxy-cvmfs-csi.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+namespace: gxy-cvmfs
+cache:
+  storageClass: manual
+  accessMode: ReadWriteMany
+  size: 10000
+  directory: /mnt/cvmfs/cache
+  pv:
+    size: 10Gi
+    name: galaxy-pv
+    enabled: true
