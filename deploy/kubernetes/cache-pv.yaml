@@ -1,0 +1,33 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: cvmfs-cache
+  namespace: cvmfs
+  labels:
+    app: csi-cvmfsplugin
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    # This is a host specific path where Galaxy files will be placed.
+    path: "/tmp/k8s/volumes/cvmfs/cache"
+
+---
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: cvmfs-cache
+  namespace: cvmfs
+  labels:
+    app: csi-cvmfsplugin
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi

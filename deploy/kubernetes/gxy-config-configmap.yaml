@@ -5,7 +5,8 @@ data:
     CVMFS_KEYS_DIR="/etc/cvmfs/keys/"
     CVMFS_USE_GEOAPI=yes
     CVMFS_HTTP_PROXY="DIRECT"
-    CVMFS_QUOTA_LIMIT=20000
+    CVMFS_QUOTA_LIMIT=10000
+    CVMFS_CACHE_BASE=/mnt/cvmfs/cache/
 kind: ConfigMap
 metadata:
   name: gxy-config-configmap
