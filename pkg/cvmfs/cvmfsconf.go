@@ -12,9 +12,10 @@ const (
 )
 
 const repoConf = `
+{{fileContents "/etc/cvmfs/default.conf"}}
+
 CVMFS_CACHE_BASE={{cacheBase .VolumeId}}
 
-{{fileContents "/etc/cvmfs/default.conf"}}
 {{fileContents "/etc/cvmfs/default.local"}}
 
 {{if .Proxy}}
