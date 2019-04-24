@@ -8,7 +8,7 @@ fi
 
 cd "$deployment_base" || exit 1
 
-objects=(csi-cvmfsplugin-attacher csi-cvmfsplugin-provisioner csi-cvmfsplugin csi-attacher-rbac csi-provisioner-rbac csi-nodeplugin-rbac nfs-pv nfs-pvc nfs-server-service nfs-server-rc nfs-server-gce-pv gxy-config-configmap main-gxy-key-configmap data-gxy-key-configmap namespace)
+objects=(csi-cvmfsplugin-attacher csi-cvmfsplugin-provisioner csi-cvmfsplugin csi-attacher-rbac csi-provisioner-rbac csi-nodeplugin-rbac nfs-server nfs-server-service cache-pv gxy-config-configmap main-gxy-key-configmap data-gxy-key-configmap namespace)
 
 for obj in ${objects[@]}; do
 	kubectl delete -f "./$obj.yaml"

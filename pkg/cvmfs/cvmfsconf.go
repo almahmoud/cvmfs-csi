@@ -13,14 +13,13 @@ const (
 
 const repoConf = `
 {{fileContents "/etc/cvmfs/default.conf"}}
-
-CVMFS_CACHE_BASE={{cacheBase .VolumeId}}
-
 {{fileContents "/etc/cvmfs/default.local"}}
 
 {{if .Proxy}}
 CVMFS_HTTP_PROXY={{.Proxy}}
 {{end}}
+
+CVMFS_CACHE_BASE={{cacheBase .VolumeId}}
 
 {{if .Hash}}
 CVMFS_ROOT_HASH={{.Hash}}
