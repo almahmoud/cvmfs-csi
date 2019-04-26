@@ -6,7 +6,7 @@ metadata:
   labels:
     app: csi-cvmfsplugin
 spec:
-  storageClassName: manual
+  storageClassName: standard
   capacity:
     storage: 10Gi
   accessModes:
@@ -25,7 +25,7 @@ metadata:
   labels:
     app: csi-cvmfsplugin
 spec:
-  storageClassName: manual
+  storageClassName: standard
   accessModes:
     - ReadWriteMany
   resources:

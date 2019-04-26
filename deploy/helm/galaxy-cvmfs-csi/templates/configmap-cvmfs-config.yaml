@@ -1,13 +1,13 @@
 apiVersion: v1
-data:
-  cvmfs-override: |
-    CVMFS_SERVER_URL="http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-psu0.galaxyproject.org/cvmfs/@fqrn@;http://galaxy.jrc.ec.europa.eu:8008/cvmfs/@fqrn@;http://cvmfs1-ufr0.galaxyproject.eu/cvmfs/@fqrn@"
-    CVMFS_KEYS_DIR="/etc/cvmfs/keys/"
-    CVMFS_USE_GEOAPI=yes
-    CVMFS_HTTP_PROXY="DIRECT"
-    CVMFS_QUOTA_LIMIT={{ .Values.cache.size }}
-    CVMFS_CACHE_BASE={{ .Values.cache.directory }}
 kind: ConfigMap
 metadata:
-  name: gxy-config-configmap
+  name: {{ .Values.cvmfsConfigMap.configMapName }}
   namespace: {{ .Values.namespace }}
+  labels:
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  {{- range $num, $entry := .Values.cvmfsConfigMap.entries }}
+  {{ $entry.name }}: |
+    {{ $entry.contents }}
+  {{- end }}

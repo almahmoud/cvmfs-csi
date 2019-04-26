@@ -5,12 +5,10 @@ metadata:
   namespace: {{ .Values.namespace }}
   labels:
     app: csi-cvmfsplugin
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
 spec:
-  storageClassName: manual
+  storageClassName: standard
   capacity:
-    storage: {{ .Values.cache.pv.size | quote }}
+    storage: 10Gi
   accessModes:
     - ReadWriteMany
   hostPath:
@@ -26,18 +24,10 @@ metadata:
   namespace: {{ .Values.namespace }}
   labels:
     app: csi-cvmfsplugin
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
 spec:
-  {{- if .Values.cache.storageClass }}
-  {{- if (eq "-" .Values.cache.storageClass) }}
-  storageClassName: ""
-  {{- else }}
-  storageClassName: "{{ .Values.cache.storageClass }}"
-  {{- end }}
-  {{- end }}
+  storageClassName: standard
   accessModes:
-    - {{ .Values.cache.accessMode | quote }}
+    - ReadWriteMany
   resources:
     requests:
-      storage: {{ .Values.cache.pv.size | quote }}
+      storage: 10Gi

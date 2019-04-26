@@ -3,6 +3,42 @@
 # Declare variables to be passed into your templates.
 
 namespace: gxy-cvmfs
+cvmfsConfigMap:
+  configMapName: cvmfs-config
+  entries:
+    - name: defaultLocal
+      mountPath: /etc/cvmfs/default.local
+      contents: |
+        CVMFS_SERVER_URL="http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-psu0.galaxyproject.org/cvmfs/@fqrn@;http://galaxy.jrc.ec.europa.eu:8008/cvmfs/@fqrn@;http://cvmfs1-ufr0.galaxyproject.eu/cvmfs/@fqrn@"
+        CVMFS_KEYS_DIR="/etc/cvmfs/keys/"
+        CVMFS_USE_GEOAPI=yes
+        CVMFS_HTTP_PROXY="DIRECT"
+        CVMFS_QUOTA_LIMIT=10000
+        CVMFS_CACHE_BASE=/mnt/cvmfs/cache/
+    - name: gxyDataKey
+      mountPath: /etc/cvmfs/keys/
+      contents: |
+        -----BEGIN PUBLIC KEY-----
+        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5LHQuKWzcX5iBbCGsXGt
+        6CRi9+a9cKZG4UlX/lJukEJ+3dSxVDWJs88PSdLk+E25494oU56hB8YeVq+W8AQE
+        3LWx2K2ruRjEAI2o8sRgs/IbafjZ7cBuERzqj3Tn5qUIBFoKUMWMSIiWTQe2Sfnj
+        GzfDoswr5TTk7aH/FIXUjLnLGGCOzPtUC244IhHARzu86bWYxQJUw0/kZl5wVGcH
+        maSgr39h1xPst0Vx1keJ95AH0wqxPbCcyBGtF1L6HQlLidmoIDqcCQpLsGJJEoOs
+        NVNhhcb66OJHah5ppI1N3cZehdaKyr1XcF9eedwLFTvuiwTn6qMmttT/tHX7rcxT
+        owIDAQAB
+        -----END PUBLIC KEY-----
+    - name: gxyMainKey
+      mountPath: /etc/cvmfs/keys/
+      contents: |
+        -----BEGIN PUBLIC KEY-----
+        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6S6Tugcv4kk4C06f574l
+        YCXQdK6lv2m7mqCh60G0zL1+rAkkEBDWna0yMQLBbj+yDsHjcOe0yISzbTfzG6wk
+        KnHZUQ/JOeK7lUAbDMxHqnjkEPAbAl4vXl2Y04MW2lzJtXcDKakmLirvV/dfUYqE
+        gGGx0dc/Z+XmUTf1DvZFJknrBUUxO5+F6m7k/NGrlpAca+e9B0kwCclaE4NyaNWK
+        Jv5rPWCYz5/sDNW4cNvBdBjwGf46etbczmJoTAbl0oM6LLGdebwkJStd0R1wkj+A
+        torRYcoFZICTZqY9e/KsadHUeZnH3RvfMypH5oS1POzsFszoSxBhZIBkZbG3/f9Y
+        OQIDAQAB
+        -----END PUBLIC KEY-----
 cache:
   storageClass: manual
   accessMode: ReadWriteMany

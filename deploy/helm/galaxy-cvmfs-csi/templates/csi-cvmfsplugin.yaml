@@ -72,7 +72,7 @@ spec:
               mountPath: /etc/cvmfs/default.local
               subPath: cvmfs-override
             - name: cvmfs-cache
-              mountPath: {{ .Values.cache.directory }}
+              mountPath: /mnt/cvmfs/cache/
       volumes:
         - name: plugin-dir
           hostPath:
@@ -100,10 +100,10 @@ spec:
             name: gxy-config-configmap
         - name: cvmfs-data-gxy-pubkey
           configMap:
-            name: data-gxy-key-configmap
+            name: 
         - name: cvmfs-main-gxy-pubkey
           configMap:
-            name: main-gxy-key-configmap
+            name: {{ .Values.cvmfsConfigMap.configMapName }}
         - name: cvmfs-cache
           persistentVolumeClaim:
             claimName: cvmfs-cache
