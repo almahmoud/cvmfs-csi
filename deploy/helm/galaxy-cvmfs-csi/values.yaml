@@ -55,3 +55,12 @@ cache:
   size: &cacheSize 10000
   hostPath: /tmp/k8s/volumes/cvmfs/cache
   mountPath: &cacheDirectory /mnt/cvmfs/cache
+# It is not advisable to change these settings unless you know what you are doing
+cvmfsPlugin:
+  image: gitlab-registry.nautilus.optiputer.net/prp/cvmfs-csi:latest
+  args:
+    - "--nodeid=$(NODE_ID)"
+    - "--endpoint=$(CSI_ENDPOINT)"
+    - "--v=5"
+    - "--drivername=csi-cvmfsplugin"
+  pluginDirectory: /var/lib/kubelet/plugins/csi-cvmfsplugin

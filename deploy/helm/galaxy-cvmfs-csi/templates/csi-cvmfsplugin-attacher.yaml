@@ -35,13 +35,13 @@ spec:
             - "--csi-address=$(ADDRESS)"
           env:
             - name: ADDRESS
-              value: /var/lib/kubelet/plugins/csi-cvmfsplugin/csi.sock
+              value: {{ .Values.cvmfsPlugin.pluginDirectory }}/csi.sock
           imagePullPolicy: "IfNotPresent"
           volumeMounts:
             - name: socket-dir
-              mountPath: /var/lib/kubelet/plugins/csi-cvmfsplugin
+              mountPath: {{ .Values.cvmfsPlugin.pluginDirectory }}
       volumes:
         - name: socket-dir
           hostPath:
-            path: /var/lib/kubelet/plugins/csi-cvmfsplugin
+            path: {{ .Values.cvmfsPlugin.pluginDirectory }}
             type: DirectoryOrCreate

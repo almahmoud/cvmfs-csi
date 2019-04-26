@@ -3,6 +3,9 @@ apiVersion: apps/v1beta2
 metadata:
   name: csi-cvmfsplugin
   namespace: {{ .Values.namespace }}
+  labels:
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
   selector:
     matchLabels:
@@ -10,6 +13,8 @@ spec:
   template:
     metadata:
       labels:
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
         app: csi-cvmfsplugin
     spec:
       serviceAccount: cvmfs-nodeplugin
@@ -19,7 +24,7 @@ spec:
           image: quay.io/k8scsi/csi-node-driver-registrar:v1.0.2
           args:
             - "--csi-address=/csi/csi.sock"
-            - "--kubelet-registration-path=/var/lib/kubelet/plugins/csi-cvmfsplugin/csi.sock"
+            - "--kubelet-registration-path={{ .Values.cvmfsPlugin.pluginDirectory }}/csi.sock"
           lifecycle:
             preStop:
               exec:
@@ -35,23 +40,22 @@ spec:
             capabilities:
               add: ["SYS_ADMIN"]
             allowPrivilegeEscalation: true
-          image: gitlab-registry.nautilus.optiputer.net/prp/cvmfs-csi:latest
+          image: {{ .Values.cvmfsPlugin.image }}
           args :
-            - "--nodeid=$(NODE_ID)"
-            - "--endpoint=$(CSI_ENDPOINT)"
-            - "--v=5"
-            - "--drivername=csi-cvmfsplugin"
+            {{- range $arg := .Values.cvmfsPlugin.args }}
+            - {{ $arg | quote -}}
+            {{- end }}
           env:
             - name: NODE_ID
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
             - name: CSI_ENDPOINT
-              value: unix://var/lib/kubelet/plugins/csi-cvmfsplugin/csi.sock
+              value: unix:/{{ .Values.cvmfsPlugin.pluginDirectory }}/csi.sock
           imagePullPolicy: "Always"
           volumeMounts:
             - name: plugin-dir
-              mountPath: /var/lib/kubelet/plugins/csi-cvmfsplugin
+              mountPath: {{ .Values.cvmfsPlugin.pluginDirectory }}
             - name: pods-mount-dir
               mountPath: /var/lib/kubelet/pods
               mountPropagation: "Bidirectional"
@@ -72,7 +76,7 @@ spec:
       volumes:
         - name: plugin-dir
           hostPath:
-            path: /var/lib/kubelet/plugins/csi-cvmfsplugin
+            path: {{ .Values.cvmfsPlugin.pluginDirectory }}
             type: DirectoryOrCreate
         - name: registration-dir
           hostPath:
