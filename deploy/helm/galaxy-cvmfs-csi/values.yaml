@@ -13,17 +13,17 @@ cvmfsConfigMap:
         CVMFS_KEYS_DIR="/etc/cvmfs/keys/"
         CVMFS_USE_GEOAPI=yes
         CVMFS_HTTP_PROXY="DIRECT"
-      # These will be appended to the above by concatenating the keys and values.
-      # This was added in order to support the use of YAML anchors
-      # TODO: add lint ignore to these keys
-      keyContents:
-        CVMFS_QUOTA_LIMIT=: *cacheSize
-        CVMFS_CACHE_BASE=: *cacheDirectory
         # The limit will default to .cache.size below.
         # The cache directory will default to .cache.mountPath below.
         # Only specify these configs here if you wish to overwrite those defaults
         # CVMFS_QUOTA_LIMIT=10000
         # CVMFS_CACHE_BASE=mnt/cvmfs/cache/
+      keyContents:
+        # These will be appended to the above by concatenating the keys and values.
+        # This was added in order to support the use of YAML anchors
+        # TODO: add lint ignore to these keys
+        CVMFS_QUOTA_LIMIT=: *cacheSize
+        CVMFS_CACHE_BASE=: *cacheDirectory
     - name: gxyDataKey
       mountPath: /etc/cvmfs/keys/data.galaxyproject.org.pub
       rawContents: |
