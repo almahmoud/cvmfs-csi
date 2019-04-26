@@ -8,16 +8,25 @@ cvmfsConfigMap:
   entries:
     - name: defaultLocal
       mountPath: /etc/cvmfs/default.local
-      contents: |
+      rawContents: |
         CVMFS_SERVER_URL="http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-psu0.galaxyproject.org/cvmfs/@fqrn@;http://galaxy.jrc.ec.europa.eu:8008/cvmfs/@fqrn@;http://cvmfs1-ufr0.galaxyproject.eu/cvmfs/@fqrn@"
         CVMFS_KEYS_DIR="/etc/cvmfs/keys/"
         CVMFS_USE_GEOAPI=yes
         CVMFS_HTTP_PROXY="DIRECT"
-        CVMFS_QUOTA_LIMIT=10000
-        CVMFS_CACHE_BASE=/mnt/cvmfs/cache/
+      # These will be appended to the above by concatenating the keys and values.
+      # This was added in order to support the use of YAML anchors
+      # TODO: add lint ignore to these keys
+      keyContents:
+        CVMFS_QUOTA_LIMIT=: *cacheSize
+        CVMFS_CACHE_BASE=: *cacheDirectory
+        # The limit will default to .cache.size below.
+        # The cache directory will default to .cache.mountPath below.
+        # Only specify these configs here if you wish to overwrite those defaults
+        # CVMFS_QUOTA_LIMIT=10000
+        # CVMFS_CACHE_BASE=mnt/cvmfs/cache/
     - name: gxyDataKey
       mountPath: /etc/cvmfs/keys/
-      contents: |
+      rawContents: |
         -----BEGIN PUBLIC KEY-----
         MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5LHQuKWzcX5iBbCGsXGt
         6CRi9+a9cKZG4UlX/lJukEJ+3dSxVDWJs88PSdLk+E25494oU56hB8YeVq+W8AQE
@@ -29,7 +38,7 @@ cvmfsConfigMap:
         -----END PUBLIC KEY-----
     - name: gxyMainKey
       mountPath: /etc/cvmfs/keys/
-      contents: |
+      rawContents: |
         -----BEGIN PUBLIC KEY-----
         MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6S6Tugcv4kk4C06f574l
         YCXQdK6lv2m7mqCh60G0zL1+rAkkEBDWna0yMQLBbj+yDsHjcOe0yISzbTfzG6wk
@@ -40,11 +49,9 @@ cvmfsConfigMap:
         OQIDAQAB
         -----END PUBLIC KEY-----
 cache:
-  storageClass: manual
+  storageClassName: manual
   accessMode: ReadWriteMany
-  size: 10000
-  directory: /mnt/cvmfs/cache
-  pv:
-    size: 10Gi
-    name: galaxy-pv
-    enabled: true
+  # size in Mi, will propagate to both default.local and PV/PVC size
+  size: &cacheSize 10000
+  hostPath: /tmp/k8s/volumes/cvmfs/cache
+  mountPath: &cacheDirectory /mnt/cvmfs/cache

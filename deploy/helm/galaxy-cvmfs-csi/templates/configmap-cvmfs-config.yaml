@@ -9,5 +9,12 @@ metadata:
 data:
   {{- range $num, $entry := .Values.cvmfsConfigMap.entries }}
   {{ $entry.name }}: |
-    {{ $entry.contents }}
+    {{- if $entry.rawContents }}
+    {{- $entry.rawContents | nindent 4 -}}
+    {{- end }}
+    {{- if $entry.keyContents }}
+    {{- range $key, $val := $entry.keyContents }}
+    {{- $key | nindent 4 }}{{ $val -}}
+    {{- end }}
+    {{- end }}
   {{- end }}

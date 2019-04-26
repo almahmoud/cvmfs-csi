@@ -68,7 +68,7 @@ spec:
               subPath: {{ $entry.name }}
             {{- end }}
             - name: cvmfs-cache
-              mountPath: /mnt/cvmfs/cache/
+              mountPath: {{ .Values.cache.mountPath }}
       volumes:
         - name: plugin-dir
           hostPath:
@@ -96,4 +96,4 @@ spec:
             name: {{ .Values.cvmfsConfigMap.configMapName }}
         - name: cvmfs-cache
           persistentVolumeClaim:
-            claimName: cvmfs-cache
+            claimName: cvmfs-cache-pvc
