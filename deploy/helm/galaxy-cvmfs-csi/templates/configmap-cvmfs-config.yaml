@@ -13,8 +13,8 @@ data:
     {{- $entry.rawContents | nindent 4 -}}
     {{- end }}
     {{- if $entry.keyContents }}
-    {{- range $key, $val := $entry.keyContents }}
-    {{- $key | nindent 4 }}{{ $val -}}
+    {{- range $n, $config := $entry.keyContents }}
+    {{- $config.key | nindent 4 }}{{ $config.value -}}
     {{- end }}
     {{- end }}
   {{- end }}

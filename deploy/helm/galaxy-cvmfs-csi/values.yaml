@@ -21,9 +21,10 @@ cvmfsConfigMap:
       keyContents:
         # These will be appended to the above by concatenating the keys and values.
         # This was added in order to support the use of YAML anchors
-        # TODO: add lint ignore to these keys
-        CVMFS_QUOTA_LIMIT=: *cacheSize
-        CVMFS_CACHE_BASE=: *cacheDirectory
+        - key: CVMFS_QUOTA_LIMIT=
+          value: *cacheSize
+        - key: CVMFS_CACHE_BASE=
+          value: *cacheDirectory
     - name: gxyDataKey
       mountPath: /etc/cvmfs/keys/data.galaxyproject.org.pub
       rawContents: |
