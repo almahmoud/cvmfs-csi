@@ -3,12 +3,18 @@ kind: ServiceAccount
 metadata:
   name: cvmfs-attacher
   namespace: {{ .Values.namespace }}
+  labels:
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: cvmfs-external-attacher-runner
+  labels:
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 rules:
   - apiGroups: [""]
     resources: ["events"]
@@ -29,6 +35,9 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: cvmfs-attacher-role
   namespace: {{ .Values.namespace }}
+  labels:
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 subjects:
   - kind: ServiceAccount
     name: cvmfs-attacher

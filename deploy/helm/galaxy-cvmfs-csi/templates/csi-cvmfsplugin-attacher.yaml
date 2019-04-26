@@ -4,6 +4,8 @@ metadata:
   name: csi-cvmfsplugin-attacher
   namespace: {{ .Values.namespace }}
   labels:
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
     app: csi-cvmfsplugin-attacher
 spec:
   selector:
@@ -18,21 +20,27 @@ apiVersion: apps/v1beta1
 metadata:
   name: csi-cvmfsplugin-attacher
   namespace: {{ .Values.namespace }}
+  labels:
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
   serviceName: "csi-cvmfsplugin-attacher"
   replicas: 1
   template:
     metadata:
       labels:
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
         app: csi-cvmfsplugin-attacher
     spec:
       serviceAccount: cvmfs-attacher
       containers:
         - name: csi-attacher
-          image: quay.io/k8scsi/csi-attacher:v1.0.1
+          image: {{ .Values.csiAttacher.image }}
           args:
-            - "--v=5"
-            - "--csi-address=$(ADDRESS)"
+            {{- range $arg := .Values.csiAttacher.args }}
+            - {{ $arg | quote -}}
+            {{- end }}
           env:
             - name: ADDRESS
               value: {{ .Values.cvmfsPlugin.pluginDirectory }}/csi.sock

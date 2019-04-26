@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-namespace: gxy-cvmfs
+namespace: gxy-cvmfs-4
 cvmfsConfigMap:
   configMapName: cvmfs-config
   entries:
@@ -25,7 +25,7 @@ cvmfsConfigMap:
         # CVMFS_QUOTA_LIMIT=10000
         # CVMFS_CACHE_BASE=mnt/cvmfs/cache/
     - name: gxyDataKey
-      mountPath: /etc/cvmfs/keys/
+      mountPath: /etc/cvmfs/keys/data.galaxyproject.org
       rawContents: |
         -----BEGIN PUBLIC KEY-----
         MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5LHQuKWzcX5iBbCGsXGt
@@ -37,7 +37,7 @@ cvmfsConfigMap:
         owIDAQAB
         -----END PUBLIC KEY-----
     - name: gxyMainKey
-      mountPath: /etc/cvmfs/keys/
+      mountPath: /etc/cvmfs/keys/main.galaxyproject.org
       rawContents: |
         -----BEGIN PUBLIC KEY-----
         MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6S6Tugcv4kk4C06f574l
@@ -55,7 +55,8 @@ cache:
   size: &cacheSize 10000
   hostPath: /tmp/k8s/volumes/cvmfs/cache
   mountPath: &cacheDirectory /mnt/cvmfs/cache
-# It is not advisable to change these settings unless you know what you are doing
+# Advanced settings
+# Changing these settings is not advised unless you know what you are doing
 cvmfsPlugin:
   image: gitlab-registry.nautilus.optiputer.net/prp/cvmfs-csi:latest
   args:
@@ -64,3 +65,15 @@ cvmfsPlugin:
     - "--v=5"
     - "--drivername=csi-cvmfsplugin"
   pluginDirectory: /var/lib/kubelet/plugins/csi-cvmfsplugin
+  nodeDriverImage: quay.io/k8scsi/csi-node-driver-registrar:v1.0.2
+csiAttacher:
+  image: quay.io/k8scsi/csi-attacher:v1.0.1
+  args:
+    - "--v=5"
+    - "--csi-address=$(ADDRESS)"
+csiProvisioner:
+  image: quay.io/k8scsi/csi-provisioner:v1.0.1
+  args:
+    - "--provisioner=csi-cvmfsplugin"
+    - "--csi-address=$(ADDRESS)"
+    - "--v=5"

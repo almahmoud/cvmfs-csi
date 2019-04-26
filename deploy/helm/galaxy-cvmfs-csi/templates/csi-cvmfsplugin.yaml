@@ -21,7 +21,7 @@ spec:
       hostNetwork: true
       containers:
         - name: csi-driver-registrar
-          image: quay.io/k8scsi/csi-node-driver-registrar:v1.0.2
+          image: {{ .Values.cvmfsPlugin.nodeDriverImage }}
           args:
             - "--csi-address=/csi/csi.sock"
             - "--kubelet-registration-path={{ .Values.cvmfsPlugin.pluginDirectory }}/csi.sock"
