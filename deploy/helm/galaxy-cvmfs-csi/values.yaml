@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-namespace: gxy-cvmfs-4
+namespace: gxy-cvmfs
 cvmfsConfigMap:
   configMapName: cvmfs-config
   entries:
@@ -25,7 +25,7 @@ cvmfsConfigMap:
         # CVMFS_QUOTA_LIMIT=10000
         # CVMFS_CACHE_BASE=mnt/cvmfs/cache/
     - name: gxyDataKey
-      mountPath: /etc/cvmfs/keys/data.galaxyproject.org
+      mountPath: /etc/cvmfs/keys/data.galaxyproject.org.pub
       rawContents: |
         -----BEGIN PUBLIC KEY-----
         MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5LHQuKWzcX5iBbCGsXGt
@@ -37,7 +37,7 @@ cvmfsConfigMap:
         owIDAQAB
         -----END PUBLIC KEY-----
     - name: gxyMainKey
-      mountPath: /etc/cvmfs/keys/main.galaxyproject.org
+      mountPath: /etc/cvmfs/keys/main.galaxyproject.org.pub
       rawContents: |
         -----BEGIN PUBLIC KEY-----
         MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6S6Tugcv4kk4C06f574l
