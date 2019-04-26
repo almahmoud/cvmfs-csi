@@ -62,15 +62,11 @@ spec:
               readOnly: true
             - name: host-dev
               mountPath: /dev
-            - name: cvmfs-data-gxy-pubkey
-              mountPath: /etc/cvmfs/keys/data.galaxyproject.org.pub
-              subPath: data-gxy-key
-            - name: cvmfs-main-gxy-pubkey
-              mountPath: /etc/cvmfs/keys/main.galaxyproject.org.pub
-              subPath: main-gxy-key
-            - name: cvmfs-gxy-config
-              mountPath: /etc/cvmfs/default.local
-              subPath: cvmfs-override
+            {{- range $num, $entry := .Values.cvmfsConfigMap.entries }}
+            - name: cvmfs-config
+              mountPath: {{ $entry.mountPath }}
+              subPath: {{ $entry.name }}
+            {{- end }}
             - name: cvmfs-cache
               mountPath: /mnt/cvmfs/cache/
       volumes:
@@ -95,13 +91,7 @@ spec:
         - name: host-dev
           hostPath:
             path: /dev
-        - name: cvmfs-gxy-config
-          configMap:
-            name: gxy-config-configmap
-        - name: cvmfs-data-gxy-pubkey
-          configMap:
-            name: 
-        - name: cvmfs-main-gxy-pubkey
+        - name: cvmfs-config
           configMap:
             name: {{ .Values.cvmfsConfigMap.configMapName }}
         - name: cvmfs-cache
