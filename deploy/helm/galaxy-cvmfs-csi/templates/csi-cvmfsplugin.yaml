@@ -2,7 +2,6 @@ kind: DaemonSet
 apiVersion: apps/v1beta2
 metadata:
   name: csi-cvmfsplugin
-  namespace: {{ .Values.namespace }}
   labels:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -21,10 +20,10 @@ spec:
       hostNetwork: true
       containers:
         - name: csi-driver-registrar
-          image: {{ .Values.cvmfsPlugin.nodeDriverImage }}
+          image: {{ .Values.csiPlugin.nodeDriverImage }}
           args:
             - "--csi-address=/csi/csi.sock"
-            - "--kubelet-registration-path={{ .Values.cvmfsPlugin.pluginDirectory }}/csi.sock"
+            - "--kubelet-registration-path={{ .Values.csiPlugin.pluginDirectory }}/csi.sock"
           lifecycle:
             preStop:
               exec:
@@ -40,9 +39,9 @@ spec:
             capabilities:
               add: ["SYS_ADMIN"]
             allowPrivilegeEscalation: true
-          image: {{ .Values.cvmfsPlugin.image }}
+          image: {{ .Values.csiPlugin.image }}
           args :
-            {{- range $arg := .Values.cvmfsPlugin.args }}
+            {{- range $arg := .Values.csiPlugin.args }}
             - {{ $arg | quote -}}
             {{- end }}
           env:
@@ -51,11 +50,11 @@ spec:
                 fieldRef:
                   fieldPath: spec.nodeName
             - name: CSI_ENDPOINT
-              value: unix:/{{ .Values.cvmfsPlugin.pluginDirectory }}/csi.sock
+              value: unix:/{{ .Values.csiPlugin.pluginDirectory }}/csi.sock
           imagePullPolicy: "Always"
           volumeMounts:
             - name: plugin-dir
-              mountPath: {{ .Values.cvmfsPlugin.pluginDirectory }}
+              mountPath: {{ .Values.csiPlugin.pluginDirectory }}
             - name: pods-mount-dir
               mountPath: /var/lib/kubelet/pods
               mountPropagation: "Bidirectional"
@@ -66,17 +65,17 @@ spec:
               readOnly: true
             - name: host-dev
               mountPath: /dev
-            {{- range $num, $entry := .Values.cvmfsConfigMap.entries }}
+            {{- range $key, $entry := .Values.configs }}
             - name: cvmfs-config
-              mountPath: {{ $entry.mountPath }}
-              subPath: {{ $entry.name }}
+              mountPath: /etc/cvmfs/{{ $entry.mountPath }}
+              subPath: {{ $key }}
             {{- end }}
             - name: cvmfs-cache
               mountPath: {{ .Values.cache.mountPath }}
       volumes:
         - name: plugin-dir
           hostPath:
-            path: {{ .Values.cvmfsPlugin.pluginDirectory }}
+            path: {{ .Values.csiPlugin.pluginDirectory }}
             type: DirectoryOrCreate
         - name: registration-dir
           hostPath:
@@ -97,7 +96,7 @@ spec:
             path: /dev
         - name: cvmfs-config
           configMap:
-            name: {{ .Values.cvmfsConfigMap.configMapName }}
+            name: cvmfs-configmap
         - name: cvmfs-cache
           persistentVolumeClaim:
             claimName: cvmfs-cache-pvc
